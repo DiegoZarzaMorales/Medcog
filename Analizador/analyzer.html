@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trabajo Adjunto — Analizador (Standalone)</title>
+  <link rel="stylesheet" href="analyzer.css" />
+</head>
+<body>
+  <div class="modal-window" role="dialog" aria-label="Trabajo Adjunto">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <img src="../Imagenes/medcog_logo.png" alt="MEDCOG" style="width:56px; height:auto; object-fit:contain; background:#fff; padding:6px; border-radius:6px;" />
+        <div class="modal-title">Trabajo Adjunto — Analizador</div>
+      </div>
+      <div class="modal-actions">
+        <a href="../ProgramaPrincipal/index.html" class="ghost" title="Volver a la app">Volver</a>
+      </div>
+    </div>
+
+    <div class="modal-body">
+      <div class="top-row">
+        <div class="tabs">
+          <button id="tabEditor" class="black-tab active-tab">Editor</button>
+          <button id="tabLexer" class="black-tab">Léxico</button>
+          <button id="tabParser" class="black-tab">Sintáctico</button>
+          <button id="tabGrammar" class="black-tab">Reglas</button>
+        </div>
+
+        <div class="lang-select">
+          <label for="langMode">Lenguaje:</label>
+          <select id="langMode">
+            <option value="arithmetic">Aritmético (expresiones)</option>
+            <option value="assignment">Asignaciones</option>
+            <option value="custom">Otro (editable)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="screens" class="screens">
+        <section id="screenEditor" class="screen active">
+          <h3>Editor — pega el código</h3>
+          <textarea id="sourceEditor" spellcheck="false">// Ejemplos: prueba los tres modos
+// arithmetic: (3 + 4) * 2 == 14
+// assignment: x = (a + 3) * 2;
+x = (a + 3) * 2;
+</textarea>
+          <div class="controls">
+            <button id="runLex" class="black-btn">Generar tokens</button>
+            <button id="runParse" class="black-btn">Generar árbol</button>
+            <input id="fileInput" type="file" accept=".txt,.cpp" />
+            <button id="loadExample" class="ghost">Cargar ejemplo</button>
+          </div>
+        </section>
+
+        <section id="screenLexer" class="screen" hidden>
+          <h3>Resultados del Análisis Léxico</h3>
+          <table id="tokensTable" class="tokens-table">
+            <thead><tr><th>#</th><th>Token</th><th>Lexema</th><th>Pos</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </section>
+
+        <section id="screenParser" class="screen" hidden>
+          <h3>Árbol Sintáctico Generado</h3>
+          <div id="treeArea" class="tree-area" aria-live="polite"></div>
+        </section>
+
+        <section id="screenGrammar" class="screen" hidden>
+          <h3>Reglas de Gramática y Tokens</h3>
+          <textarea id="grammarEditor" class="grammar-editor"></textarea>
+          <div class="controls">
+            <button id="saveGrammar" class="black-btn">Guardar reglas</button>
+            <button id="resetGrammar" class="ghost">Restaurar por defecto</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="analyzer.js"></script>
+</body>
+</html>

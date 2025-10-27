@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MEDCOG — Traductor de Medicamentos</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- librerías para PDF/canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <header class="project-header" role="banner">
+    <div class="brand" style="display:flex;align-items:center;gap:14px;">
+      <img id="siteLogo" src="../Imagenes/medcog_logo.png" alt="MEDCOG logo" class="logo-med"/>
+      <div>
+        <strong class="brand-title">MEDCOG</strong><br/>
+        <span class="brand-sub">Traductor de Medicamentos</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="project-meta">
+        <h1 class="main-title">MEDCOG — Tecnología al servicio de tu bienestar</h1>
+        <div class="header-slogan">“Tu salud, nuestra prioridad.”</div>
+      </div>
+      <div style="margin-left:14px;">
+        <button id="analizadorBtn" class="black-btn" title="Abrir Analizador (Estudiante)">Analizador (Estudiante)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="app" role="main">
+    <div class="wizard panel">
+      <div class="wizard-steps">
+        <div class="step-indicator">
+          <div class="step active" data-step="1">1</div>
+          <div class="step-label">Cuenta</div>
+          <div class="connector"></div>
+          <div class="step" data-step="2">2</div>
+          <div class="step-label">Ficha</div>
+          <div class="connector"></div>
+          <div class="step" data-step="3">3</div>
+          <div class="step-label">Resultados</div>
+        </div>
+      </div>
+
+      <!-- Paso 1 -->
+      <section id="page-1" class="wizard-page" data-step="1">
+        <h2>1 — Cuenta</h2>
+        <p class="muted large">Crea una cuenta o inicia sesión. Tu historial se guardará en esta cuenta en el navegador.</p>
+
+        <label class="big-label">Usuario (email o nombre)
+          <input id="auth_username" type="text" placeholder="ejemplo@correo.com" />
+        </label>
+
+        <label class="big-label">Contraseña
+          <input id="auth_password" type="password" placeholder="Contraseña" />
+        </label>
+
+        <div class="actions-large">
+          <button id="btnRegister" class="primary large">Crear cuenta</button>
+          <button id="btnLogin" class="secondary large">Iniciar sesión</button>
+        </div>
+
+        <p id="authMsg" class="muted" aria-live="assertive"></p>
+      </section>
+
+      <!-- Paso 2 -->
+      <section id="page-2" class="wizard-page" data-step="2" hidden>
+        <h2>2 — Ficha del paciente</h2>
+        <p class="muted large">Llena los datos del paciente. Si no los sabes todos, ingresa los que tengas.</p>
+
+        <label class="big-label">Nombre completo
+          <input id="p_name" type="text" placeholder="Ej. Juan Pérez" />
+        </label>
+
+        <div class="row big-row">
+          <label class="big-label">Edad (años)
+            <input id="p_age" type="number" min="0" max="120" placeholder="Ej. 70" />
+          </label>
+
+          <label class="big-label">Sexo
+            <select id="p_sex">
+              <option value="">—</option>
+              <option value="M">M</option>
+              <option value="F">F</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row big-row">
+          <label class="big-label">Estatura (cm)
+            <input id="p_height" type="number" min="0" max="300" placeholder="Ej. 165" />
+          </label>
+
+          <label class="big-label">Peso (kg)
+            <input id="p_weight" type="number" min="0" max="300" placeholder="Ej. 75" />
+          </label>
+        </div>
+
+        <label class="big-label">Motivo / Condición
+          <select id="p_condition">
+            <option value="">— Seleccionar —</option>
+            <option value="cold">Resfriado (gripe)</option>
+            <option value="sore-throat">Dolor de garganta</option>
+            <option value="uti">Infección urinaria (UTI)</option>
+            <option value="hypertension">Hipertensión</option>
+            <option value="diabetes">Diabetes</option>
+            <option value="allergy">Alergia</option>
+            <option value="pain">Dolor / Inflamación</option>
+          </select>
+        </label>
+
+        <fieldset class="allergies big-label">
+          <legend>Alergias (marcar si aplica)</legend>
+          <label><input type="checkbox" name="allergy" value="none" id="allergy_none" checked /> Ninguna</label>
+          <label><input type="checkbox" name="allergy" value="paracetamol" /> Paracetamol</label>
+          <label><input type="checkbox" name="allergy" value="ibuprofen" /> Ibuprofeno</label>
+          <label><input type="checkbox" name="allergy" value="aspirin" /> Aspirina</label>
+        </fieldset>
+
+        <div class="actions-large">
+          <button id="prevTo1" class="ghost large">Atrás</button>
+          <button id="toResults" class="primary large">Siguiente: Ver recomendaciones</button>
+        </div>
+      </section>
+
+      <!-- Paso 3 -->
+      <section id="page-3" class="wizard-page" data-step="3" hidden>
+        <h2>3 — Recomendaciones</h2>
+        <div class="results-slogan">“Recomendaciones confiables al instante.”</div>
+        <p class="muted large">Sugerencias orientativas. Cada recomendación incluye un botón para leerla en voz alta.</p>
+
+        <div id="results" class="panel large-panel" aria-live="polite">
+          <p class="muted">Aquí verás las recomendaciones después de completar la ficha.</p>
+        </div>
+
+        <div class="actions-large">
+          <button id="prevTo2" class="ghost large">Atrás</button>
+          <button id="savePatient" class="primary large">Guardar historial en mi cuenta</button>
+          <button id="exportHistoryPdf" class="secondary large">Descargar historial (PDF)</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="panel side" aria-label="Panel lateral">
+      <div id="sessionInfo" class="muted">Sin sesión — crea o inicia sesión en el paso 1</div>
+      <hr/>
+      <div class="quick-help">
+        <h3>Cómo usar</h3>
+        <ol>
+          <li>Crear cuenta o iniciar sesión (Paso 1).</li>
+          <li>Completar la ficha del paciente (Paso 2).</li>
+          <li>Ver recomendaciones y guardar historial (Paso 3).</li>
+        </ol>
+      </div>
+
+      <div class="sidebar-slogan" style="margin-top:12px;font-weight:600;color:var(--accent-3);">“Decisiones médicas inteligentes.”</div>
+
+      <hr/>
+      <div class="contact muted">En caso de duda, consulta a tu médico. Esta herramienta es informativa.</div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <div style="font-weight:600;color:var(--accent-3);margin-bottom:6px;">“La salud no espera. MedCOG responde.”</div>
+    <small>Última actualización: Octubre 2025 — Versión 2.5 — “Tecnología al servicio de tu bienestar.”</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
