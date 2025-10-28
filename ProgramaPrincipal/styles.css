@@ -849,56 +849,188 @@ button:disabled {
   .container{ 
     grid-template-columns: 1fr;
     gap: 24px;
-    margin: 24px auto;
+    margin: 20px auto;
+    padding: 0 16px;
   }
   
   .side{ 
     order: 2;
     position: relative;
     top: 0;
+    padding: 20px;
   }
   
   .project-header {
-    padding: 20px 16px;
+    padding: 16px;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
+  }
+  
+  .brand {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  .logo-med {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .brand-title {
+    font-size: 1.3rem;
   }
   
   .header-right {
     flex-direction: column;
     width: 100%;
     gap: 12px;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .main-title {
+    font-size: 1.1rem;
   }
   
   .black-btn {
     width: 100%;
+    padding: 12px 20px;
+    font-size: 0.9rem;
   }
   
   .wizard {
-    padding: 24px;
+    padding: 20px;
+    border-radius: 16px;
   }
   
   .wizard-page h2 {
     font-size: 1.5rem;
   }
+  
+  .step-indicator {
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  
+  .panel {
+    padding: 20px;
+  }
+  
+  .large-panel {
+    padding: 20px;
+  }
+  
+  .med-card {
+    padding: 20px;
+  }
+  
+  .med-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .big-label input,
+  .big-label select {
+    font-size: 16px; /* Evita zoom en iOS */
+  }
 }
 
 @media (max-width: 640px) {
+  html {
+    font-size: 15px;
+  }
+  
+  .project-header {
+    padding: 12px;
+  }
+  
+  .logo-med {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .brand-title {
+    font-size: 1.2rem;
+  }
+  
+  .brand-sub {
+    font-size: 0.85rem;
+  }
+  
   .step {
-    width: 44px;
-    height: 44px;
-    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
   
   .connector {
-    width: 20px;
+    width: 16px;
+  }
+  
+  .wizard {
+    padding: 16px;
+  }
+  
+  .wizard-page h2 {
+    font-size: 1.3rem;
   }
   
   .actions-large {
     flex-direction: column;
+    gap: 12px;
   }
   
-  .primary, .secondary {
+  .primary, .secondary, .ghost {
     width: 100%;
+    padding: 12px 20px;
+  }
+  
+  .med-card {
+    padding: 16px;
+  }
+  
+  .med-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .med-card button {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  
+  .tokens-table {
+    font-size: 0.85rem;
+  }
+  
+  .tokens-table th,
+  .tokens-table td {
+    padding: 8px;
+  }
+  
+  .tree-area {
+    font-size: 0.85rem;
+    padding: 16px;
+  }
+  
+  .footer {
+    padding: 20px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Mejoras táctiles para móvil */
+@media (hover: none) and (pointer: coarse) {
+  button, .primary, .secondary, .ghost, .black-btn {
+    min-height: 44px; /* Tamaño mínimo táctil */
+    touch-action: manipulation;
+  }
+  
+  input, select, textarea {
+    font-size: 16px !important; /* Evita zoom en iOS */
   }
 }
